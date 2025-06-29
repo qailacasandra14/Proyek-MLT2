@@ -56,9 +56,29 @@ Pada proyek ini model yang digunakan adalah content based filtering
 Sistem rekomendasi dengan metode content-based filtering merekomendasikan item yang mirip dengan item sebelumnya yang disukai atau dipilih oleh pengguna. Kemiripan item dihitung berdasarkan pada fitur-fitur yang ada pada item yang dibandingkan. Metode ini bersifat user independence, tidak bergantung pada situasi apakah item tersebut merupakan item baru (yang belum pernah dipilih oleh pengguna manapun) maupun bukan item baru. Jika seorang pengguna telah memesan suatu menu hidangan pada kategori tertentu maka sistem akan mencoba merekomendasikan menu hidangan dengan kategori serupa yang juga tersedia di restoran lain yang mungkin akan disukai juga oleh pengguna tersebut.
 Kelemahan : terbatasnya rekomendasi hanya pada item-item yang mirip sehingga tidak ada kesempatan untuk mendapatkan item yang tidak terduga
 Kekurangan : Content-based filtering memberikan rekomendasi berdasarkan karakteristik item yang sudah disukai pengguna sebelumnya. Karena fokusnya adalah preferensi individual, sehingga hasil rekomendasi cenderung lebih relevan dan personal
-## Evaluation
-\text{Precision} = \frac{\text{Jumlah rekomendasi relevan}}{\text{Total rekomendasi}}
 
+### Implementasi
+Dalam pengembangan sistem rekomendasi lagu ini, algoritma Content-Based Filtering diterapkan melalui beberapa langkah penting berikut:
+
+    Transformasi Data Menggunakan TF-IDF
+    Pada tahap ini, data yang telah dibersihkan dikonversi menjadi representasi numerik berupa vektor fitur. Proses ini dilakukan menggunakan fungsi TfidfVectorizer() dari pustaka scikit-learn. Dengan pendekatan ini, setiap informasi seperti genre lagu dikodekan ke dalam format yang dapat dihitung secara matematis, sehingga memungkinkan pengukuran kemiripan antar lagu berdasarkan kontennya.
+
+    Penghitungan Tingkat Kemiripan (Cosine Similarity)
+    Setelah vektorisasi selesai, langkah berikutnya adalah menghitung sejauh mana kemiripan antar lagu menggunakan teknik cosine similarity. Penghitungan ini dilakukan terhadap matriks TF-IDF untuk mengetahui lagu mana saja yang memiliki karakteristik serupa. Fungsi cosine_similarity() digunakan dalam proses ini untuk menghasilkan matriks kesamaan antar lagu berdasarkan genre atau fitur kontennya.
+
+    Penyusunan Daftar Rekomendasi Lagu
+    Tahapan terakhir adalah menghasilkan rekomendasi lagu dengan membuat fungsi khusus, seperti lagu_recommendations. Fungsi ini memanfaatkan metode pemeringkatan menggunakan argpartition untuk memilih beberapa lagu dengan skor kemiripan tertinggi dari matriks cosine_sim_df. Lagu-lagu yang paling mirip kemudian dikumpulkan, diurutkan dari tingkat kesamaan tertinggi, dan disimpan dalam sebuah variabel misalnya closest. Lagu yang dijadikan referensi awal akan dikecualikan agar tidak muncul dalam hasil rekomendasi akhir.
+### Hasil
+Proses pembangunan model machine learning untuk sistem rekomendasi musik telah berhasil diselesaikan. Langkah selanjutnya adalah menguji bagaimana performa sistem dalam memberikan saran lagu yang sesuai.
+![image](https://github.com/user-attachments/assets/949c504c-b9c1-4a9c-a45f-aa8e12165908)
+Sebagai contoh, sistem akan digunakan untuk mencari lagu-lagu yang memiliki kemiripan dengan salah satu karya Tim McGraw yang berjudul Just to see your smile, yang diklasifikasikan dalam genre Country.
+## Evaluation
+Metrik evaluasi model pada proyek ini digunakan model precision
+![image](https://github.com/user-attachments/assets/724c9cd9-f1fc-42e9-9ec6-13951a1b3fbd)
+r = Total rekomendasi yang relevan
+i = Jumlah rekomendasi yang diberikan
+Jika sistem merekomendasikan 4 lagu, dan 4 di antaranya memang relevan, maka:
+Precision = 4/4 = 100%
 ## Conclusion
 - Sistem rekomendasi lagu berbasis konten berhasil dibangun dan diuji dengan precision 100%.
 - Pipeline proyek mencakup *data cleaning*, *feature engineering*, *modeling*, dan *evaluation*.
